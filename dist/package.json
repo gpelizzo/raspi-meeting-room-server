@@ -1,0 +1,19 @@
+{
+  "name": "events_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "googleapis": "^48.0.0",
+    "query-string": "^6.12.1",
+    "winston": "^3.2.1",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+	"moment": "^2.24.0"
+  }
+}
