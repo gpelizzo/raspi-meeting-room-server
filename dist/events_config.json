@@ -1,0 +1,8 @@
+[
+  {
+    "meeting_room_name": "<meeting-room-name>",
+    "meeting_room_id": "<meeting-room-id>",
+    "calendar_id": "<calendar-email-or-id>",
+    "clients": []
+  }
+]
