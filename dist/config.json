@@ -5,7 +5,7 @@
 	"logs_path": "/home/pi/raspi-meeting-room-server/logs.log",
 	"log_level": "debug",
 	"event_config_path": "/home/pi/raspi-meeting-room-server/events_config.json",
-	"sssl_key_path": "/home/pi/raspi-meeting-room-server/<your-domain-name-ssl-file>.key.pem",
+	"ssl_key_path": "/home/pi/raspi-meeting-room-server/<your-domain-name-ssl-file>.key.pem",
 	"ssl_cert_path": "/home/pi/raspi-meeting-room-server/<your-domain-name-ssl-file>.fr.fullchain.pem",
 	"google_private_key": "/home/pi/raspi-meeting-room-server/<google-private-key-file>.json",
 	"google_customer_id": "<your-google-customer-id>",
