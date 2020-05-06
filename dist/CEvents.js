@@ -95,7 +95,7 @@ var CEvents = /** @class */ (function () {
                         /*retreive calendars settings, including display clients. Set mEventsMeetingRooms*/
                         this.readEventsConfig();
                         httpsServer = https.createServer({
-                            key: fs.readFileSync(this.mParams.sssl_key_path),
+                            key: fs.readFileSync(this.mParams.ssl_key_path),
                             cert: fs.readFileSync(this.mParams.ssl_cert_path),
                         }, this.mExpressModule);
                         this.mExpressModule.use(body.json());
