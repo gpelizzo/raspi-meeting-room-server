@@ -1,6 +1,5 @@
 {
 	"event_provider": <"microsoft" or "google">,
-	"impersonate_user_email_save": "",
 	"impersonate_user_email": "",
 	"logs_path": "/home/pi/raspi-meeting-room-server/logs.log",
 	"log_level": "debug",
