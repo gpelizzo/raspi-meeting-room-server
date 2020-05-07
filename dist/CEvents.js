@@ -251,7 +251,7 @@ var CEvents = /** @class */ (function () {
                         status = EnumClientRegistration.not_yet_registered;
                     }
                     CLogger_1.CLogger.debug('(CEvents:registerDevice:#1):' + JSON.stringify(pClient) + ' | ' + status);
-                    this.updateMeetingRoomDeviceEvent(pClient, JSON.stringify({ force_update: 'false', events: this.mEventsMeetingRooms[indexMeetingRoom].events }));
+                    this.updateMeetingRoomDeviceEvent(pClient, { force_update: 'false', events: this.mEventsMeetingRooms[indexMeetingRoom].events });
                 }
                 else {
                     status = EnumClientRegistration.meeting_room_error;
@@ -331,14 +331,14 @@ var CEvents = /** @class */ (function () {
                             switch (_a.label) {
                                 case 0:
                                     _a.trys.push([0, 2, , 3]);
-                                    return [4 /*yield*/, this.updateMeetingRoomDeviceEvent(client, JSON.stringify({ force_update: (pbForceUpdate ? 'true' : 'false'), events: meetingRoom.events }))];
+                                    return [4 /*yield*/, this.updateMeetingRoomDeviceEvent(client, { force_update: (pbForceUpdate ? 'true' : 'false'), events: meetingRoom.events })];
                                 case 1:
                                     retValue = _a.sent();
                                     CLogger_1.CLogger.debug('(CEvents:updateMeetingRoomAllDevices:#1) client IP: ' + client.ip + ', result: ' + retValue);
                                     return [3 /*break*/, 3];
                                 case 2:
                                     err_2 = _a.sent();
-                                    CLogger_1.CLogger.error('(CEvents:updateMeetingRoomAllDevices:21) client IP: ' + client.ip + ', error: ' + err_2);
+                                    CLogger_1.CLogger.error('(CEvents:updateMeetingRoomAllDevices:#2) client IP: ' + client.ip + ', error: ' + err_2);
                                     return [3 /*break*/, 3];
                                 case 3: return [2 /*return*/];
                             }
@@ -403,14 +403,14 @@ var CEvents = /** @class */ (function () {
                                 switch (_a.label) {
                                     case 0:
                                         _a.trys.push([0, 2, , 3]);
-                                        return [4 /*yield*/, this.updateMeetingRoomDeviceEvent(client, JSON.stringify({ force_update: (pbForceUpdate ? 'true' : 'false'), events: meetingRoom.events }))];
+                                        return [4 /*yield*/, this.updateMeetingRoomDeviceEvent(client, { force_update: (pbForceUpdate ? 'true' : 'false'), events: meetingRoom.events })];
                                     case 1:
                                         retValue = _a.sent();
                                         CLogger_1.CLogger.debug('(CEvents:updateAllMeetingRoomDevices:#1) client IP: ' + client.ip + ', result: ' + retValue);
                                         return [3 /*break*/, 3];
                                     case 2:
                                         err_3 = _a.sent();
-                                        CLogger_1.CLogger.error('(CEvents:updateAllMeetingRoomDevices:21) client IP: ' + client.ip + ', error: ' + err_3);
+                                        CLogger_1.CLogger.error('(CEvents:updateAllMeetingRoomDevices:#2) client IP: ' + client.ip + ', error: ' + err_3);
                                         return [3 /*break*/, 3];
                                     case 3: return [2 /*return*/];
                                 }
@@ -431,6 +431,7 @@ var CEvents = /** @class */ (function () {
     CEvents.sendEventsToDevice = function (pclienIP, pData) {
         var _this = this;
         return new Promise(function (resolve, reject) {
+            CLogger_1.CLogger.debug('(CEvents:sendEventsToDevice:1) client IP: ' + pclienIP + ':' + _this.mParams.tcp_devices_port + ', data: ' + pData);
             var options = {
                 hostname: pclienIP,
                 port: _this.mParams.tcp_devices_port,
@@ -438,7 +439,6 @@ var CEvents = /** @class */ (function () {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Content-Length': pData.length,
                     'Authorization': 'Bearer ' + _this.mParams.tcp_devices_token
                 }
             };
@@ -455,7 +455,7 @@ var CEvents = /** @class */ (function () {
             request.on('error', function (error) {
                 reject(error);
             });
-            request.write(pData);
+            request.write(JSON.stringify(pData));
             request.end();
         });
     };
