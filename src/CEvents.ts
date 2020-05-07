@@ -66,7 +66,7 @@ export class CEvents {
 		
 		/*initialize https server for push notification*/
 		const httpsServer = https.createServer({
-		  key: fs.readFileSync(this.mParams.sssl_key_path),
+		  key: fs.readFileSync(this.mParams.ssl_key_path),
 		  cert: fs.readFileSync(this.mParams.ssl_cert_path),
 		}, this.mExpressModule);
 
@@ -201,7 +201,7 @@ export class CEvents {
 			
 			CLogger.debug('(CEvents:registerDevice:#1):' + JSON.stringify(pClient) + ' | ' + status);
 			
-			this.updateMeetingRoomDeviceEvent(pClient, JSON.stringify({force_update: 'false', events: this.mEventsMeetingRooms[indexMeetingRoom].events}));
+			this.updateMeetingRoomDeviceEvent(pClient, {force_update: 'false', events: this.mEventsMeetingRooms[indexMeetingRoom].events});
 		} else {
 			status = EnumClientRegistration.meeting_room_error;
 			CLogger.error('(CEvents:registerDevice:#2):' + JSON.stringify(pClient) + ' | ' + status);
@@ -251,10 +251,10 @@ export class CEvents {
 		if (meetingRoom !== undefined) {
 			meetingRoom.clients.forEach(async (client: any) => {
 				try {
-					const retValue = await this.updateMeetingRoomDeviceEvent(client, JSON.stringify({force_update: (pbForceUpdate ? 'true' : 'false'), events: meetingRoom.events}));
+					const retValue = await this.updateMeetingRoomDeviceEvent(client, {force_update: (pbForceUpdate ? 'true' : 'false'), events: meetingRoom.events});
 					CLogger.debug('(CEvents:updateMeetingRoomAllDevices:#1) client IP: ' + client.ip + ', result: ' + retValue);
 				} catch(err) {
-					CLogger.error('(CEvents:updateMeetingRoomAllDevices:21) client IP: ' + client.ip + ', error: ' + err);
+					CLogger.error('(CEvents:updateMeetingRoomAllDevices:#2) client IP: ' + client.ip + ', error: ' + err);
 				}
 			});	
 		};
@@ -282,7 +282,7 @@ export class CEvents {
 	*				}
 	*		}
 	*/
-	private static async updateMeetingRoomDeviceEvent(pClient: any, pEvents: string) {
+	private static async updateMeetingRoomDeviceEvent(pClient: any, pEvents: any) {
 		return new Promise((resolve: any, reject: any) => {
 				this.sendEventsToDevice(pClient.ip, pEvents).then((value: any) => {
 					resolve(value);
@@ -300,10 +300,10 @@ export class CEvents {
 		this.mEventsMeetingRooms.forEach(async (meetingRoom: any) => {
 			meetingRoom.clients.forEach(async (client: any) => {
 				try {
-					const retValue = await this.updateMeetingRoomDeviceEvent(client, JSON.stringify({force_update: (pbForceUpdate ? 'true' : 'false'), events: meetingRoom.events}));
+					const retValue = await this.updateMeetingRoomDeviceEvent(client, {force_update: (pbForceUpdate ? 'true' : 'false'), events: meetingRoom.events});
 					CLogger.debug('(CEvents:updateAllMeetingRoomDevices:#1) client IP: ' + client.ip + ', result: ' + retValue);
 				} catch(err) {
-					CLogger.error('(CEvents:updateAllMeetingRoomDevices:21) client IP: ' + client.ip + ', error: ' + err);
+					CLogger.error('(CEvents:updateAllMeetingRoomDevices:#2) client IP: ' + client.ip + ', error: ' + err);
 				}
 			});	
 		});
@@ -314,8 +314,8 @@ export class CEvents {
 	* param pclienIP: IP address of the device
 	* param pData: stringified events list
 	*/
-	private static sendEventsToDevice(pclienIP: string, pData: string) {
-		return new Promise((resolve: any, reject: any) => {
+	private static sendEventsToDevice(pclienIP: string, pData: any) {
+		return new Promise((resolve: any, reject: any) => {			
 			const options: any = {
 				hostname: pclienIP,
 				port: this.mParams.tcp_devices_port,
@@ -323,7 +323,6 @@ export class CEvents {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					'Content-Length': pData.length,
 					'Authorization': 'Bearer ' + this.mParams.tcp_devices_token
 				}
 			};
@@ -344,7 +343,7 @@ export class CEvents {
 				reject(error);
 			})
 			
-			request.write(pData)
+			request.write(JSON.stringify(pData));
 			request.end()
 		});
 	}
