@@ -1,6 +1,6 @@
 {
 	"event_provider": <"microsoft" or "google">,
-	"impersonate_user_email": "",
+	"impersonate_user_email": "<admin-email-addr>",
 	"logs_path": "/home/pi/raspi-meeting-room-server/logs.log",
 	"log_level": "debug",
 	"event_config_path": "/home/pi/raspi-meeting-room-server/events_config.json",
