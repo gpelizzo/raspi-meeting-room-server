@@ -1,5 +1,5 @@
 {
-  "name": "events_server",
+  "name": "raspi_meeting_room_server",
   "version": "1.0.0",
   "description": "",
   "main": "CMain.js",
